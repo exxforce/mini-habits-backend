@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class UserMigration1614744080561 implements MigrationInterface {
+export class HabitsUsersDays1615162782848 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'habits_users_days',
         columns: [
           {
             name: 'id',
@@ -13,25 +13,12 @@ export class UserMigration1614744080561 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           {
-            name: 'name',
+            name: 'habits_users_id',
             type: 'varchar',
           },
           {
-            name: 'lastname',
-            type: 'varchar',
-          },
-          {
-            name: 'email',
-            type: 'varchar',
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-          },
-          {
-            name: 'updated_at',
-            type: 'timestamp',
-            default: 'now()',
+            name: 'completed',
+            type: 'boolean',
           },
           {
             name: 'created_at',
@@ -39,11 +26,21 @@ export class UserMigration1614744080561 implements MigrationInterface {
             default: 'now()',
           },
         ],
+        foreignKeys: [
+          {
+            name: 'FKHabitUser',
+            referencedTableName: 'habits_users',
+            referencedColumnNames: ['id'],
+            columnNames: ['habits_users_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+        ],
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('habits_users_days');
   }
 }
